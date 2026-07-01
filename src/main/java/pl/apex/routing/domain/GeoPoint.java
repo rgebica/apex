@@ -1,0 +1,14 @@
+package pl.apex.routing.domain;
+
+/** Punkt geograficzny - niemutowalny value object. */
+public record GeoPoint(double latitude, double longitude) {
+
+    public GeoPoint {
+        if (latitude < -90 || latitude > 90) {
+            throw new IllegalArgumentException("Szerokosc geograficzna poza zakresem: " + latitude);
+        }
+        if (longitude < -180 || longitude > 180) {
+            throw new IllegalArgumentException("Dlugosc geograficzna poza zakresem: " + longitude);
+        }
+    }
+}

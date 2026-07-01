@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: apex
+  datasource:
+    url: jdbc:postgresql://localhost:5432/apex
+    username: apex
+    password: apex
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+  liquibase:
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+server:
+  port: 8080
