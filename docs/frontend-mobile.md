@@ -153,8 +153,10 @@ exact header is where the Keycloak token subject will plug in later.
 | `POST` | `/api/routes` | `X-Author-Id`; `{ name, waypoints[] }` | `201` `{ id }` |
 | `POST` | `/api/routes/{id}/publish` | — | `204` |
 
-Errors: `400 { error }` (bad input / broken invariant), `409 { error }`
-(illegal state, e.g. publishing an already-published route).
+Errors (all `{ error: string }`):
+- `400` — bad input / broken invariant (e.g. missing name, < 2 waypoints, coordinates out of range)
+- `404` — route id does not exist (e.g. publishing an unknown id)
+- `409` — illegal state transition (e.g. publishing an already-published route)
 
 ### DTO shapes (match backend records)
 

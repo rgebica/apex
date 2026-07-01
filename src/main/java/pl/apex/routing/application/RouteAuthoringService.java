@@ -6,6 +6,7 @@ import pl.apex.routing.domain.AuthorId;
 import pl.apex.routing.domain.GeoPoint;
 import pl.apex.routing.domain.Route;
 import pl.apex.routing.domain.RouteId;
+import pl.apex.routing.domain.RouteNotFoundException;
 
 import java.util.List;
 
@@ -33,7 +34,7 @@ public class RouteAuthoringService {
     @Transactional
     public void publish(RouteId id) {
         Route route = routes.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Trasa nie istnieje: " + id.value()));
+                .orElseThrow(() -> new RouteNotFoundException(id));
         route.publish();
         routes.save(route);
     }

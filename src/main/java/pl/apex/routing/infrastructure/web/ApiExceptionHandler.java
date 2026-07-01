@@ -4,24 +4,33 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import pl.apex.routing.domain.RouteNotFoundException;
+import pl.apex.routing.domain.RouteStateException;
+import pl.apex.routing.domain.RouteValidationException;
 
 import java.util.Map;
 
 /**
- * Tlumaczy wyjatki domeny na kody HTTP:
- *  - zlamany inwariant / zle dane wejsciowe -> 400
- *  - proba niedozwolonej zmiany stanu (np. publikacja opublikowanej) -> 409
+ * Tlumaczy wyjatki domeny kontekstu Route na kody HTTP:
+ *  - zlamany inwariant / zle dane        -> 400
+ *  - trasa nie istnieje                  -> 404
+ *  - niedozwolona zmiana stanu           -> 409
  */
 @RestControllerAdvice
 public class ApiExceptionHandler {
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Map<String, String>> handleBadRequest(IllegalArgumentException e) {
+    @ExceptionHandler(RouteValidationException.class)
+    public ResponseEntity<Map<String, String>> handleValidation(RouteValidationException e) {
         return ResponseEntity.badRequest().body(Map.of("error", e.getMessage()));
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<Map<String, String>> handleConflict(IllegalStateException e) {
+    @ExceptionHandler(RouteNotFoundException.class)
+    public ResponseEntity<Map<String, String>> handleNotFound(RouteNotFoundException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", e.getMessage()));
+    }
+
+    @ExceptionHandler(RouteStateException.class)
+    public ResponseEntity<Map<String, String>> handleState(RouteStateException e) {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of("error", e.getMessage()));
     }
 }

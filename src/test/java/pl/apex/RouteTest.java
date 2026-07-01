@@ -5,7 +5,9 @@ import pl.apex.routing.domain.AuthorId;
 import pl.apex.routing.domain.GeoPoint;
 import pl.apex.routing.domain.Route;
 import pl.apex.routing.domain.RouteId;
+import pl.apex.routing.domain.RouteStateException;
 import pl.apex.routing.domain.RouteStatus;
+import pl.apex.routing.domain.RouteValidationException;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,19 +48,19 @@ class RouteTest {
     void cannotPublishTwice() {
         Route route = sampleDraft();
         route.publish();
-        assertThrows(IllegalStateException.class, route::publish);
+        assertThrows(RouteStateException.class, route::publish);
     }
 
     @Test
     void routeNeedsAuthor() {
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(RouteValidationException.class, () ->
                 Route.draft(RouteId.newId(), null, "Bez autora",
                         List.of(new GeoPoint(49.4, 20.1), new GeoPoint(49.5, 20.2))));
     }
 
     @Test
     void routeNeedsAtLeastTwoWaypoints() {
-        assertThrows(IllegalArgumentException.class, () ->
+        assertThrows(RouteValidationException.class, () ->
                 Route.draft(RouteId.newId(), AUTHOR, "Za krotka", List.of(new GeoPoint(49.4, 20.1))));
     }
 }

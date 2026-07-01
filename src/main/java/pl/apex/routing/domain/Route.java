@@ -27,13 +27,13 @@ public class Route {
     /** Fabryka wymusza inwarianty juz przy tworzeniu szkicu. */
     public static Route draft(RouteId id, AuthorId authorId, String name, List<GeoPoint> waypoints) {
         if (authorId == null) {
-            throw new IllegalArgumentException("Trasa musi miec autora");
+            throw new RouteValidationException("Trasa musi miec autora");
         }
         if (name == null || name.isBlank()) {
-            throw new IllegalArgumentException("Trasa musi miec nazwe");
+            throw new RouteValidationException("Trasa musi miec nazwe");
         }
         if (waypoints == null || waypoints.size() < 2) {
-            throw new IllegalArgumentException("Trasa potrzebuje co najmniej dwoch punktow");
+            throw new RouteValidationException("Trasa potrzebuje co najmniej dwoch punktow");
         }
         return new Route(id, authorId, name, waypoints, RouteStatus.DRAFT);
     }
@@ -51,14 +51,14 @@ public class Route {
     /** Publikacja - dostepna tylko dla szkicu. Tu w Fazie 2 powstanie event RouteShared. */
     public void publish() {
         if (status != RouteStatus.DRAFT) {
-            throw new IllegalStateException("Opublikowac mozna tylko szkic trasy");
+            throw new RouteStateException("Opublikowac mozna tylko szkic trasy");
         }
         this.status = RouteStatus.PUBLISHED;
     }
 
     public void rename(String newName) {
         if (newName == null || newName.isBlank()) {
-            throw new IllegalArgumentException("Nazwa nie moze byc pusta");
+            throw new RouteValidationException("Nazwa nie moze byc pusta");
         }
         this.name = newName;
     }
