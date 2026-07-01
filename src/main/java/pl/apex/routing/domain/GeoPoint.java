@@ -1,5 +1,7 @@
 package pl.apex.routing.domain;
 
+import pl.apex.routing.domain.exception.RouteValidationException;
+
 /** Punkt geograficzny - niemutowalny value object. */
 public record GeoPoint(double latitude, double longitude) {
 

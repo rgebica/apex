@@ -1,4 +1,4 @@
-package pl.apex.routing.domain;
+package pl.apex.routing.domain.exception;
 
 /**
  * Baza wyjatkow domenowych kontekstu Route. Grupuje bledy domeny, dzieki czemu

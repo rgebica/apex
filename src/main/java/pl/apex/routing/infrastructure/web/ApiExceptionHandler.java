@@ -4,9 +4,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import pl.apex.routing.domain.RouteNotFoundException;
-import pl.apex.routing.domain.RouteStateException;
-import pl.apex.routing.domain.RouteValidationException;
+import pl.apex.routing.domain.exception.RouteNotFoundException;
+import pl.apex.routing.domain.exception.RouteStateException;
+import pl.apex.routing.domain.exception.RouteValidationException;
 
 import java.util.Map;
 

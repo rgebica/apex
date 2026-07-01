@@ -6,7 +6,7 @@ import pl.apex.routing.domain.AuthorId;
 import pl.apex.routing.domain.GeoPoint;
 import pl.apex.routing.domain.Route;
 import pl.apex.routing.domain.RouteId;
-import pl.apex.routing.domain.RouteNotFoundException;
+import pl.apex.routing.domain.exception.RouteNotFoundException;
 
 import java.util.List;
 

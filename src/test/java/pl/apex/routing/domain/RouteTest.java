@@ -1,13 +1,8 @@
-package pl.apex;
+package pl.apex.routing.domain;
 
 import org.junit.jupiter.api.Test;
-import pl.apex.routing.domain.AuthorId;
-import pl.apex.routing.domain.GeoPoint;
-import pl.apex.routing.domain.Route;
-import pl.apex.routing.domain.RouteId;
-import pl.apex.routing.domain.RouteStateException;
-import pl.apex.routing.domain.RouteStatus;
-import pl.apex.routing.domain.RouteValidationException;
+import pl.apex.routing.domain.exception.RouteStateException;
+import pl.apex.routing.domain.exception.RouteValidationException;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,5 +1,8 @@
 package pl.apex.routing.domain;
 
+import pl.apex.routing.domain.exception.RouteStateException;
+import pl.apex.routing.domain.exception.RouteValidationException;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
