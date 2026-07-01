@@ -23,3 +23,6 @@ Thumbs.db
 # Logs / env
 *.log
 .env
+
+# Local dev notes (machine-specific paths, not part of the project)
+CLAUDE.md

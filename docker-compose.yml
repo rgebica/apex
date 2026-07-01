@@ -10,6 +10,32 @@ services:
       - "5432:5432"
     volumes:
       - apex-pgdata:/var/lib/postgresql/data
+    # Healthcheck: Docker sam sprawdza, czy baza jest juz gotowa przyjmowac
+    # polaczenia. Aplikacja (nizej) czeka na ten stan, zanim wystartuje.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U apex -d apex"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+
+  app:
+    # Zamiast gotowego 'image' z internetu - zbuduj obraz z lokalnego Dockerfile.
+    build: .
+    container_name: apex-app
+    # Nie startuj aplikacji, dopoki baza nie przejdzie healthchecku.
+    depends_on:
+      postgres:
+        condition: service_healthy
+    # WEWNATRZ sieci Dockera kontenery widza sie po NAZWIE uslugi, nie po
+    # localhost. Dlatego adres bazy to 'postgres:5432', a nie 'localhost:5432'.
+    # Spring Boot czyta te zmienne i nadpisuje nimi to, co jest w application.yml
+    # - dzieki temu lokalne 'mvn spring-boot:run' dalej dziala na localhost.
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/apex
+      SPRING_DATASOURCE_USERNAME: apex
+      SPRING_DATASOURCE_PASSWORD: apex
+    ports:
+      - "8080:8080"
 
 volumes:
   apex-pgdata:

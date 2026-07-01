@@ -1,0 +1,10 @@
+# Nie kopiuj tych rzeczy do kontekstu budowania obrazu - sa niepotrzebne
+# i tylko spowalniaja/zasmiecaja build. Skompilowany kod i tak powstaje
+# wewnatrz obrazu (etap build), a nie jest kopiowany z hosta.
+target/
+.git/
+.github/
+.idea/
+*.iml
+.mvn/
+HELP.md
