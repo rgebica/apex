@@ -11,26 +11,41 @@ import java.util.List;
 public class Route {
 
     private final RouteId id;
+    private final AuthorId authorId;
     private String name;
     private final List<GeoPoint> waypoints;
     private RouteStatus status;
 
-    private Route(RouteId id, String name, List<GeoPoint> waypoints) {
+    private Route(RouteId id, AuthorId authorId, String name, List<GeoPoint> waypoints, RouteStatus status) {
         this.id = id;
+        this.authorId = authorId;
         this.name = name;
         this.waypoints = new ArrayList<>(waypoints);
-        this.status = RouteStatus.DRAFT;
+        this.status = status;
     }
 
     /** Fabryka wymusza inwarianty juz przy tworzeniu szkicu. */
-    public static Route draft(RouteId id, String name, List<GeoPoint> waypoints) {
+    public static Route draft(RouteId id, AuthorId authorId, String name, List<GeoPoint> waypoints) {
+        if (authorId == null) {
+            throw new IllegalArgumentException("Trasa musi miec autora");
+        }
         if (name == null || name.isBlank()) {
             throw new IllegalArgumentException("Trasa musi miec nazwe");
         }
         if (waypoints == null || waypoints.size() < 2) {
             throw new IllegalArgumentException("Trasa potrzebuje co najmniej dwoch punktow");
         }
-        return new Route(id, name, waypoints);
+        return new Route(id, authorId, name, waypoints, RouteStatus.DRAFT);
+    }
+
+    /**
+     * Odtworzenie agregatu z zapisu (persystencja) - dane juz raz przeszly
+     * walidacje przy tworzeniu, wiec nie wymuszamy jej ponownie i pozwalamy
+     * odtworzyc dowolny status (np. PUBLISHED wczytany z bazy).
+     */
+    public static Route rehydrate(RouteId id, AuthorId authorId, String name,
+                                  List<GeoPoint> waypoints, RouteStatus status) {
+        return new Route(id, authorId, name, waypoints, status);
     }
 
     /** Publikacja - dostepna tylko dla szkicu. Tu w Fazie 2 powstanie event RouteShared. */
@@ -50,6 +65,10 @@ public class Route {
 
     public RouteId id() {
         return id;
+    }
+
+    public AuthorId authorId() {
+        return authorId;
     }
 
     public String name() {
