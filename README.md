@@ -1,5 +1,6 @@
 # Apex
 
+![CI](https://github.com/rgebica/apex/actions/workflows/ci.yml/badge.svg)
 ![Java](https://img.shields.io/badge/Java-21-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.3-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
