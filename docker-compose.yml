@@ -2,10 +2,12 @@ services:
   postgres:
     image: postgres:16
     container_name: apex-postgres
+    # Dane logowania z .env (jesli jest) albo domyslnie 'apex'. Ta sama para
+    # zasila baze i aplikacje ponizej - dzieki temu sie zgadzaja.
     environment:
       POSTGRES_DB: apex
-      POSTGRES_USER: apex
-      POSTGRES_PASSWORD: apex
+      POSTGRES_USER: ${DB_USERNAME:-apex}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-apex}
     ports:
       - "5432:5432"
     volumes:
@@ -13,7 +15,7 @@ services:
     # Healthcheck: Docker sam sprawdza, czy baza jest juz gotowa przyjmowac
     # polaczenia. Aplikacja (nizej) czeka na ten stan, zanim wystartuje.
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U apex -d apex"]
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-apex} -d apex"]
       interval: 5s
       timeout: 3s
       retries: 10
@@ -26,14 +28,14 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-    # WEWNATRZ sieci Dockera kontenery widza sie po NAZWIE uslugi, nie po
-    # localhost. Dlatego adres bazy to 'postgres:5432', a nie 'localhost:5432'.
-    # Spring Boot czyta te zmienne i nadpisuje nimi to, co jest w application.yml
-    # - dzieki temu lokalne 'mvn spring-boot:run' dalej dziala na localhost.
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/apex
-      SPRING_DATASOURCE_USERNAME: apex
-      SPRING_DATASOURCE_PASSWORD: apex
+      # Uruchom aplikacje z profilem prod (application-prod.yml) - bez sekretow w kodzie.
+      SPRING_PROFILES_ACTIVE: prod
+      # WEWNATRZ sieci Dockera kontenery widza sie po NAZWIE uslugi, nie po
+      # localhost - stad 'postgres:5432'. Te zmienne wypelniaja ${...} w profilu prod.
+      DB_URL: jdbc:postgresql://postgres:5432/apex
+      DB_USERNAME: ${DB_USERNAME:-apex}
+      DB_PASSWORD: ${DB_PASSWORD:-apex}
     ports:
       - "8080:8080"
 

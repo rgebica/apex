@@ -1,10 +1,10 @@
 spring:
   application:
     name: apex
-  datasource:
-    url: jdbc:postgresql://localhost:5432/apex
-    username: apex
-    password: apex
+  profiles:
+    # Domyslny profil dla uruchomien lokalnych (mvn spring-boot:run).
+    # W kontenerze nadpisywany na 'prod' przez SPRING_PROFILES_ACTIVE.
+    active: dev
   jpa:
     hibernate:
       ddl-auto: none

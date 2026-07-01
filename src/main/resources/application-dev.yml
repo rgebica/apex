@@ -1,0 +1,7 @@
+# Profil dev - lokalna baza z docker-compose (localhost:5432).
+# To NIE sa sekrety, tylko dane jednorazowej bazy deweloperskiej - moga byc w repo.
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/apex
+    username: apex
+    password: apex

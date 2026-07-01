@@ -1,0 +1,8 @@
+# Profil prod - ZADNYCH sekretow w kodzie. Wszystko wstrzykiwane ze zmiennych
+# srodowiskowych przy uruchomieniu (w compose z .env, na serwerze z secret managera).
+# Jesli ktorejs zmiennej brakuje, aplikacja swiadomie nie wstanie - to celowe.
+spring:
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
