@@ -26,7 +26,7 @@ The guiding principle: start as a modular monolith with clean boundaries, and on
 
 **Now (Phase 0):** Java 21 · Spring Boot 3.3 · Hibernate/JPA · PostgreSQL · Liquibase · Maven · Docker
 
-**Planned:** RabbitMQ (message broker) · Keycloak (auth) · MinIO (photo storage) · PostGIS (geo search) · Kubernetes / k3s + KEDA · Angular (frontend)
+**Planned:** RabbitMQ (message broker) · Keycloak (auth) · MinIO (photo storage) · PostGIS (geo search) · Kubernetes / k3s + KEDA · Flutter (cross-platform mobile app)
 
 ## Architecture
 
